@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mteja Dashboard | Jirani Pro</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Theme toggle -->
+  <div class="theme-toggle">
+    <label class="switch">
+      <input type="checkbox" id="themeSwitcher">
+      <span class="slider round"></span>
+    </label>
+  </div>
+
+  <div class="container">
+    <h1>Welcome, Mteja</h1>
+
+    <!-- Job Request Form -->
+    <h2>Post a Job</h2>
+    <form id="jobForm">
+      <label for="jobType">Service Needed:</label>
+      <input type="text" id="jobType" required placeholder="e.g. Electrician" />
+
+      <label for="location">Your Location:</label>
+      <input type="text" id="location" required placeholder="e.g. Kilimani" />
+
+      <label for="details">Job Description:</label>
+      <textarea id="details" rows="4" required placeholder="e.g. I need light fixtures installed..."></textarea>
+
+      <button type="submit">Post Job</button>
+    </form>
+
+    <!-- Job Posts Display -->
+    <h2>Your Requests</h2>
+    <div id="jobList"></div>
+  </div>
+
+  <script src="js/mteja.js"></script>
+</body>
+</html>

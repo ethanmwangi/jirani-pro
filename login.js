@@ -32,3 +32,22 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     alert('Role not selected. Go back to home page.');
   }
 });
+// === Theme Toggle Logic ===
+const toggle = document.getElementById('themeSwitcher');
+
+// Check localStorage on load
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark-mode');
+  toggle.checked = true;
+}
+
+// Toggle theme on change
+toggle.addEventListener('change', () => {
+  if (toggle.checked) {
+    document.body.classList.add('dark-mode');
+    localStorage.setItem('theme', 'dark');
+  } else {
+    document.body.classList.remove('dark-mode');
+    localStorage.setItem('theme', 'light');
+  }
+});
