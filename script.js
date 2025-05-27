@@ -156,3 +156,121 @@ document.addEventListener('DOMContentLoaded', () => {
     renderJobs();
   }
 });
+const jobApplicants = {
+  job123: [
+    { name: 'Jane W.', experience: '2 yrs', rating: 4.8 },
+    { name: 'Mary A.', experience: '3 yrs', rating: 4.5 }
+  ],
+  // other jobs...
+};
+
+function viewApplicants(jobId) {
+  const container = document.getElementById(`applicants-${jobId}`);
+  const applicants = jobApplicants[jobId];
+
+  if (!applicants || applicants.length === 0) {
+    container.innerHTML = '<p>No applicants yet.</p>';
+  } else {
+    container.innerHTML = applicants.map(app => `
+      <div class="applicant-card">
+        <p><strong>${app.name}</strong> – ${app.experience}</p>
+        <p>Rating: ⭐ ${app.rating}</p>
+        <button onclick="updateStatus('${jobId}', '${app.name}', 'accepted')">Accept</button>
+        <button onclick="updateStatus('${jobId}', '${app.name}', 'rejected')">Reject</button>
+      </div>
+    `).join('');
+  }
+
+  container.style.display = container.style.display === 'none' ? 'block' : 'none';
+}
+// Sample job data
+const jobs = [
+  {
+    id: "job1",
+    title: "House Cleaning",
+    location: "Kilimani",
+    date: "2025-05-28",
+    applicants: [
+      { name: "Amina", rating: 4.7, experience: "2 yrs" },
+      { name: "John", rating: 4.5, experience: "1.5 yrs" }
+    ]
+  },
+  {
+    id: "job2",
+    title: "Gardening",
+    location: "Lavington",
+    date: "2025-05-29",
+    applicants: [
+      { name: "Grace", rating: 4.9, experience: "3 yrs" }
+    ]
+  }
+];
+
+// Track job status per applicant
+const applicantStatus = {};
+
+// Render job listings
+function renderJobs() {
+  const container = document.getElementById("job-listings");
+  container.innerHTML = "";
+
+  jobs.forEach(job => {
+    const jobCard = document.createElement("div");
+    jobCard.className = "job-card";
+
+    jobCard.innerHTML = `
+      <h3>${job.title}</h3>
+      <p><strong>Location:</strong> ${job.location}</p>
+      <p><strong>Date:</strong> ${job.date}</p>
+      <button onclick="viewApplicants('${job.id}')">View Applicants</button>
+    `;
+
+    container.appendChild(jobCard);
+  });
+}
+
+// View applicants for a specific job
+function viewApplicants(jobId) {
+  const job = jobs.find(j => j.id === jobId);
+  const container = document.getElementById("applicants");
+  container.innerHTML = `<h2>Applicants for ${job.title}</h2>`;
+
+  container.innerHTML += job.applicants.map(app => {
+    const status = applicantStatus[jobId]?.[app.name];
+    let statusHTML = "";
+
+    if (status) {
+      statusHTML = `<p class="status ${status}">Status: ${status.toUpperCase()}</p>`;
+    } else {
+      statusHTML = `
+        <button onclick="updateStatus('${jobId}', '${app.name}', 'accepted')">Accept</button>
+        <button onclick="updateStatus('${jobId}', '${app.name}', 'rejected')">Reject</button>
+      `;
+    }
+
+    return `
+      <div class="applicant-card">
+        <p><strong>${app.name}</strong> – ${app.experience}</p>
+        <p>Rating: ⭐ ${app.rating}</p>
+        ${statusHTML}
+      </div>
+    `;
+  }).join("");
+}
+
+// Accept or reject an applicant
+function updateStatus(jobId, applicantName, status) {
+  if (!applicantStatus[jobId]) {
+    applicantStatus[jobId] = {};
+  }
+
+  applicantStatus[jobId][applicantName] = status;
+
+  alert(`${applicantName} has been ${status.toUpperCase()} for job ${jobId}.`);
+
+  // Re-render applicants with updated status
+  viewApplicants(jobId);
+}
+
+// Initialize dashboard
+window.onload = renderJobs;
