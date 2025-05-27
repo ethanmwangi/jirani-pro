@@ -3,30 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Msaidizi Dashboard | Jirani Pro</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <title>Msaidizi Dashboard – Jirani Pro</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Theme toggle -->
-  <div class="theme-toggle">
-    <label class="switch">
-      <input type="checkbox" id="themeSwitcher">
-      <span class="slider round"></span>
-    </label>
-  </div>
-
   <div class="container">
-    <h1>Welcome, Msaidizi</h1>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    <h1>Msaidizi Dashboard</h1>
+    <p>Welcome, <span id="msaidizi-name"></span>!</p>
 
-    <!-- Available Jobs Section -->
     <h2>Available Jobs</h2>
-    <div id="jobFeed"></div>
+    <ul id="availableJobs"></ul>
 
-    <!-- My Applications -->
-    <h2>My Applications</h2>
-    <div id="appliedJobs"></div>
+    <h3>Jobs You Applied To</h3>
+    <ul id="appliedJobs"></ul>
+
+    <button onclick="logout()">Logout</button>
   </div>
 
-  <script src="js/msaidizi.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

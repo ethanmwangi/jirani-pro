@@ -3,29 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jirani Pro – Role Selection</title>
+  <title>Jirani Pro – Choose Role</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <div class="theme-toggle">
-  <label class="switch">
-    <input type="checkbox" id="themeSwitcher">
-    <span class="slider round"></span>
-  </label>
-</div>
-
-
   <div class="container">
     <h1>Welcome to Jirani Pro</h1>
-    <p>How would you like to use the app?</p>
-
-    <div class="role-selection">
-      <button id="mtejaBtn" class="role-btn">I’m a Mteja (Employer)</button>
-      <button id="msaidiziBtn" class="role-btn">I’m a Msaidizi (Helper)</button>
+    <p>Choose your role:</p>
+    <div class="role-buttons">
+      <button onclick="selectRole('mteja')">I'm a Mteja (Employer)</button>
+      <button onclick="selectRole('msaidizi')">I'm a Msaidizi (Helper)</button>
     </div>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>

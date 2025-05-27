@@ -3,41 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mteja Dashboard | Jirani Pro</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <title>Mteja Dashboard – Jirani Pro</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Theme toggle -->
-  <div class="theme-toggle">
-    <label class="switch">
-      <input type="checkbox" id="themeSwitcher">
-      <span class="slider round"></span>
-    </label>
-  </div>
-
   <div class="container">
-    <h1>Welcome, Mteja</h1>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    <h1>Mteja Dashboard</h1>
+    <p>Welcome, <span id="mteja-name"></span>!</p>
 
-    <!-- Job Request Form -->
     <h2>Post a Job</h2>
     <form id="jobForm">
-      <label for="jobType">Service Needed:</label>
-      <input type="text" id="jobType" required placeholder="e.g. Electrician" />
-
-      <label for="location">Your Location:</label>
-      <input type="text" id="location" required placeholder="e.g. Kilimani" />
-
-      <label for="details">Job Description:</label>
-      <textarea id="details" rows="4" required placeholder="e.g. I need light fixtures installed..."></textarea>
-
+      <input type="text" id="jobTitle" placeholder="Job Title" required />
+      <textarea id="jobDescription" placeholder="Job Description" required></textarea>
+      <select id="jobCategory" required>
+        <option value="" disabled selected>Select Category</option>
+        <option value="Cleaning">Cleaning</option>
+        <option value="Nanny">Nanny</option>
+        <option value="Plumbing">Plumbing</option>
+        <option value="Electrician">Electrician</option>
+        <option value="Other">Other</option>
+      </select>
+      <input type="text" id="jobBudget" placeholder="Budget (KES)" required />
+      <input type="text" id="jobLocation" placeholder="Location" required />
       <button type="submit">Post Job</button>
     </form>
 
-    <!-- Job Posts Display -->
-    <h2>Your Requests</h2>
-    <div id="jobList"></div>
+    <h3>My Posted Jobs</h3>
+    <ul id="jobList"></ul>
+
+    <button onclick="logout()">Logout</button>
   </div>
 
-  <script src="js/mteja.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
