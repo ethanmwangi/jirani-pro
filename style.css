@@ -1,176 +1,130 @@
-/* Base Styles */
+/* General Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background-color: #f7f7fc;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fc;
   color: #333;
   line-height: 1.6;
 }
 
-/* Branding Colors */
+/* Brand Colors */
 :root {
-  --primary: #7e57c2;
-  --secondary: #ae9ac0;
-  --light: #ffffff;
-  --dark: #2c2c2c;
-  --gray: #e0e0e0;
+  --primary: #6a0dad;         /* Soft Purple */
+  --secondary: #38b000;       /* Soft Green */
+  --bg-light: #ffffff;
+  --bg-dark: #1a1a1a;
+  --text-dark: #333;
+  --text-light: #f9f9f9;
 }
 
-/* Navbar */
-.navbar {
-  background-color: var(--primary);
-  color: white;
-  padding: 15px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 999;
+/* Container */
+.container {
+  max-width: 600px;
+  margin: 3rem auto;
+  background: var(--bg-light);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
 }
 
-.navbar .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-}
-
-.navbar ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.navbar .logout-btn {
-  background-color: var(--secondary);
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Main Layout */
-.main-content {
-  max-width: 1100px;
-  margin: 30px auto;
-  padding: 0 20px;
-}
-
-/* Section Headers */
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.header-section h2 {
-  font-size: 1.6rem;
+/* Headings */
+h2 {
+  text-align: center;
   color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input,
+select,
+button {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
 }
 
 /* Buttons */
-.btn-primary {
+button {
+  background-color: var(--primary);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #580fa2;
+}
+
+/* Navigation */
+nav {
   background-color: var(--primary);
   color: white;
-  border: none;
-  padding: 10px 20px;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.btn-secondary {
-  background-color: var(--secondary);
+nav a {
   color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+#logoutBtn {
+  background-color: var(--secondary);
   border: none;
   padding: 8px 16px;
-  font-weight: 500;
-  border-radius: 5px;
-  margin-top: 10px;
-  margin-right: 8px;
-  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
 }
 
-/* Job Cards */
-.job-card {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-  margin-bottom: 20px;
+#logoutBtn:hover {
+  background-color: #2e8600;
 }
 
-.job-card h3 {
-  color: var(--primary);
-  margin-bottom: 10px;
-}
-
-.job-card p {
-  margin: 4px 0;
-}
-
-/* Profile Cards */
-.profile-card {
-  background-color: white;
-  padding: 18px;
-  border-radius: 8px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-}
-
-.profile-card img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 10px;
-}
-
-.profile-card h3 {
-  margin-bottom: 5px;
-  color: var(--primary);
-}
-
-.profile-card p {
-  margin: 2px 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .navbar ul {
+/* Responsive */
+@media screen and (max-width: 768px) {
+  nav {
     flex-direction: column;
-    background: var(--primary);
-    padding: 10px;
+    align-items: center;
+    gap: 1rem;
   }
 
-  .header-section {
-    flex-direction: column;
-    gap: 15px;
+  .container {
+    margin: 2rem 1rem;
   }
 
-  .job-card,
-  .profile-card {
-    padding: 15px;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-    text-align: center;
+  input,
+  select,
+  button {
+    font-size: 0.95rem;
   }
 }
+

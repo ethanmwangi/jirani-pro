@@ -1,92 +1,33 @@
+<!-- sign-up.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up | Jirani Pro</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Sign Up – Jirani Pro</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="navbar">
-    <div class="logo">Jirani Pro</div>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="jobs.html">Jobs</a></li>
-      <li><a href="profiles.html">Helpers</a></li>
-      <li><a href="sign-up.html" class="active">Sign Up</a></li>
-    </ul>
-  </nav>
-
-  <main class="form-container">
+  <div class="container">
     <h2>Create Your Account</h2>
-    <form id="signUpForm">
-      <label for="role">I am a:</label>
-      <select id="role" name="role" required>
-        <option value="">Select role</option>
-        <option value="Mteja">Mteja (Employer)</option>
-        <option value="Msaidizi">Msaidizi (Helper)</option>
-      </select>
-
-      <label for="fullName">Full Name:</label>
-      <input type="text" id="fullName" name="fullName" required />
-
-      <label for="location">Location:</label>
-      <input type="text" id="location" name="location" required />
-
-      <label for="language">Preferred Language:</label>
-      <select id="language" name="language">
+    <form id="signupForm">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="tel" id="phone" placeholder="Phone Number" required />
+      <input type="text" id="location" placeholder="Location (e.g., Westlands)" required />
+      <select id="language" required>
+        <option value="">Preferred Language</option>
         <option value="English">English</option>
         <option value="Kiswahili">Kiswahili</option>
       </select>
-
-      <label for="contact">Contact Info:</label>
-      <input type="text" id="contact" name="contact" required />
-
-      <label for="skills" id="skillsLabel" style="display: none;">Skills (Helpers Only):</label>
-      <input type="text" id="skills" name="skills" placeholder="e.g. Cleaning, Babysitting" style="display: none;" />
-
+      <select id="role" required>
+        <option value="">I am a...</option>
+        <option value="mteja">Looking for Help (Mteja)</option>
+        <option value="msaidizi">Offering Help (Msaidizi)</option>
+      </select>
       <button type="submit">Create Account</button>
     </form>
-  </main>
+  </div>
 
-  <script>
-    const form = document.getElementById('signUpForm');
-    const roleSelect = document.getElementById('role');
-    const skillsField = document.getElementById('skills');
-    const skillsLabel = document.getElementById('skillsLabel');
-
-    roleSelect.addEventListener('change', () => {
-      if (roleSelect.value === 'Msaidizi') {
-        skillsField.style.display = 'block';
-        skillsLabel.style.display = 'block';
-      } else {
-        skillsField.style.display = 'none';
-        skillsLabel.style.display = 'none';
-      }
-    });
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const profile = {
-        role: form.role.value,
-        fullName: form.fullName.value,
-        location: form.location.value,
-        language: form.language.value,
-        contact: form.contact.value,
-        skills: form.skills.value,
-      };
-
-      localStorage.setItem('currentUser', JSON.stringify(profile));
-
-      // Optionally store in a global list of users
-      const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
-      allUsers.push(profile);
-      localStorage.setItem('users', JSON.stringify(allUsers));
-
-      // Redirect to index or profile page
-      window.location.href = 'index.html';
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

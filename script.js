@@ -426,3 +426,69 @@ document.addEventListener('DOMContentLoaded', () => {
     locationSelect.addEventListener('change', filterProfiles);
   }
 });
+// script.js
+
+// Save signup data
+document.addEventListener("DOMContentLoaded", () => {
+  const signupForm = document.getElementById("signupForm");
+  const profileForm = document.getElementById("profileForm");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  // Handle Sign-Up Form
+  if (signupForm) {
+    signupForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const user = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        location: document.getElementById("location").value,
+        language: document.getElementById("language").value,
+        role: document.getElementById("role").value
+      };
+
+      localStorage.setItem("currentUser", JSON.stringify(user));
+
+      window.location.href = "profile.html";
+    });
+  }
+
+  // Load & Update Profile Form
+  if (profileForm) {
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (user) {
+      profileForm.name.value = user.name;
+      profileForm.email.value = user.email;
+      profileForm.phone.value = user.phone;
+      profileForm.location.value = user.location;
+      profileForm.language.value = user.language;
+      profileForm.role.value = user.role;
+    }
+
+    profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const updatedUser = {
+        name: profileForm.name.value,
+        email: profileForm.email.value,
+        phone: profileForm.phone.value,
+        location: profileForm.location.value,
+        language: profileForm.language.value,
+        role: profileForm.role.value
+      };
+
+      localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+      alert("Profile updated!");
+    });
+  }
+
+  // Logout
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("currentUser");
+      window.location.href = "sign-up.html";
+    });
+  }
+});

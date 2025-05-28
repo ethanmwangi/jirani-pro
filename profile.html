@@ -1,0 +1,39 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Profile – Jirani Pro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="jobs.html">Jobs</a>
+    <a href="profiles.html">Profiles</a>
+    <a href="profile.html">My Profile</a>
+    <button id="logoutBtn">Logout</button>
+  </nav>
+
+  <div class="container">
+    <h2>My Profile</h2>
+    <form id="profileForm">
+      <input type="text" id="name" required />
+      <input type="email" id="email" required />
+      <input type="tel" id="phone" required />
+      <input type="text" id="location" required />
+      <select id="language">
+        <option value="English">English</option>
+        <option value="Kiswahili">Kiswahili</option>
+      </select>
+      <select id="role" disabled>
+        <option value="mteja">Mteja</option>
+        <option value="msaidizi">Msaidizi</option>
+      </select>
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
