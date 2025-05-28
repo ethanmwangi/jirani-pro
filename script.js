@@ -570,3 +570,59 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+const fakeJobs = [
+  {
+    title: "House Cleaning Needed in Lavington",
+    category: "Cleaning",
+    urgency: "ASAP",
+    location: "Lavington",
+    budget: "KES 1,200/day",
+    description: "Looking for someone to clean a 2-bedroom apartment."
+  },
+  {
+    title: "Nanny Required for 2 Kids",
+    category: "Babysitting",
+    urgency: "Scheduled",
+    location: "South B",
+    budget: "KES 3,000/day",
+    description: "Work is from Monday to Friday, 8am–5pm."
+  },
+  {
+    title: "Fix Leaking Pipe",
+    category: "Plumbing",
+    urgency: "ASAP",
+    location: "Westlands",
+    budget: "KES 2,000",
+    description: "Sink is leaking and needs repair quickly."
+  }
+];
+
+function renderAvailableJobs() {
+  const jobsContainer = document.getElementById('availableJobs');
+  if (!jobsContainer) return;
+
+  jobsContainer.innerHTML = '';
+
+  fakeJobs.forEach((job, index) => {
+    const jobCard = document.createElement('div');
+    jobCard.className = 'job-card';
+    jobCard.innerHTML = `
+      <h3>${job.title}</h3>
+      <p><strong>Service:</strong> ${job.category}</p>
+      <p><strong>Urgency:</strong> ${job.urgency}</p>
+      <p><strong>Location:</strong> ${job.location}</p>
+      <p><strong>Budget:</strong> ${job.budget}</p>
+      <p><strong>Description:</strong> ${job.description}</p>
+      <button class="btn-secondary" onclick="applyForJob(${index})">Apply</button>
+    `;
+    jobsContainer.appendChild(jobCard);
+  });
+}
+
+function applyForJob(index) {
+  alert(`You have applied for: ${fakeJobs[index].title}`);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderAvailableJobs();
+});
