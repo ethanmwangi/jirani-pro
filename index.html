@@ -1,20 +1,45 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jirani Pro – Choose Role</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jirani Pro – Home</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to Jirani Pro</h1>
-    <p>Choose your role:</p>
-    <div class="role-buttons">
-      <button onclick="selectRole('mteja')">I'm a Mteja (Employer)</button>
-      <button onclick="selectRole('msaidizi')">I'm a Msaidizi (Helper)</button>
+  <nav class="navbar">
+    <div class="brand">Jirani Pro</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="jobs.html">Jobs</a></li>
+      <li><a href="profiles.html">Helpers</a></li>
+      <li><a href="sign-up.html" class="cta">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <h1>Reliable Help, Just a Click Away</h1>
+    <p>Connect with trusted service providers in your neighborhood.</p>
+    <a href="sign-up.html" class="btn primary">Get Started</a>
+  </header>
+
+  <section class="categories">
+    <h2>Browse Service Categories</h2>
+    <div class="category-list">
+      <div class="category-card">🧹 Cleaning</div>
+      <div class="category-card">👶 Babysitting</div>
+      <div class="category-card">🔧 Plumbing</div>
+      <div class="category-card">💡 Electrical</div>
+      <div class="category-card">🍳 Cooking</div>
+      <div class="category-card">🎨 Painting</div>
     </div>
-  </div>
+  </section>
+
+  <footer class="footer">
+    <p>© 2025 Jirani Pro. All rights reserved.</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>

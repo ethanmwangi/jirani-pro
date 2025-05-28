@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Msaidizi Profile | Jirani Pro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">Jirani Pro</a>
+    <ul class="nav-links">
+      <li><a href="jobs.html">Jobs</a></li>
+      <li><a href="profiles.html">Helpers</a></li>
+      <li><a href="#" id="viewProfileBtn">My Profile</a></li>
+      <li><a href="#" id="logoutBtn">Logout</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <h2>Create Your Helper Profile</h2>
+    <form id="msaidiziForm" class="form">
+      <label>Full Name: <input type="text" name="name" required /></label>
+      <label>Photo URL: <input type="url" name="photo" placeholder="Optional" /></label>
+      <label>Location: <input type="text" name="location" required /></label>
+      <label>Category:
+        <select name="category" required>
+          <option value="">-- Select --</option>
+          <option>Cleaning</option>
+          <option>Babysitting</option>
+          <option>Plumbing</option>
+          <option>Cooking</option>
+          <option>Electrical</option>
+          <option>Gardening</option>
+        </select>
+      </label>
+      <label>Experience (years): <input type="number" name="experience" required /></label>
+      <label>Availability:
+        <select name="availability">
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+          <option value="Weekends">Weekends</option>
+        </select>
+      </label>
+      <label>Pricing (KES/hour): <input type="number" name="pricing" required /></label>
+      <button type="submit" class="btn">Save Profile</button>
+    </form>
+
+    <section id="profilePreview" class="profile-card hidden"></section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

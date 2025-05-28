@@ -1,276 +1,428 @@
-// Role selection on index.html
-function selectRole(role) {
-  localStorage.setItem('userRole', role);
-  window.location.href = 'sign-up.html'; // updated from login.html
-}
+// script.js
 
-// Handle login redirect
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('loginForm');
-  if (form) {
-    form.addEventListener('submit', function (e) {
+document.addEventListener("DOMContentLoaded", () => {
+  // Store role from signup
+  const roleSelect = document.getElementById("roleSelect");
+  const signupForm = document.getElementById("signupForm");
+
+  if (signupForm) {
+    signupForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const role = localStorage.getItem('userRole');
-      const username = document.getElementById('username').value;
+      const role = roleSelect.value;
+      localStorage.setItem("userRole", role);
 
-      localStorage.setItem('currentUser', JSON.stringify({ role, username }));
-
-      if (role === 'mteja') {
-        window.location.href = 'mteja.html';
-      } else if (role === 'msaidizi') {
-        window.location.href = 'msaidizi.html';
+      if (role === "mteja") {
+        window.location.href = "mteja-dashboard.html";
       } else {
-        alert('Invalid role.');
+        window.location.href = "msaidizi-dashboard.html";
       }
     });
   }
+});
+ // Theme Toggle
+const toggleBtn = document.getElementById("theme-toggle");
+if (toggleBtn) {
+  toggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-theme");
+    localStorage.setItem(
+      "theme",
+      document.body.classList.contains("dark-theme") ? "dark" : "light"
+    );
+  });
 
-  // Apply theme on load
-  const theme = localStorage.getItem('theme');
-  if (theme === 'dark') {
-    document.body.classList.add('dark-mode');
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark-theme");
+  }
+}
+
+// Navbar: Show "My Profile" if logged in
+const navLinks = document.querySelector(".nav-links");
+const user = JSON.parse(localStorage.getItem("currentUser"));
+
+if (user && navLinks) {
+  const profileLink = document.createElement("li");
+  profileLink.innerHTML = `<a href="#" id="myProfile">My Profile</a>`;
+  navLinks.appendChild(profileLink);
+
+  const logoutLink = document.createElement("li");
+  logoutLink.innerHTML = `<a href="#" id="logoutBtn">Logout</a>`;
+  navLinks.appendChild(logoutLink);
+}
+
+// Handle profile navigation
+document.addEventListener("click", function (e) {
+  if (e.target && e.target.id === "myProfile") {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser) return;
+
+    // Redirect to role-based profile view
+    if (currentUser.role === "Msaidizi") {
+      window.location.href = "profiles.html";
+    } else {
+      window.location.href = "jobs.html";
+    }
+  }
+
+  // Logout
+  if (e.target && e.target.id === "logoutBtn") {
+    localStorage.removeItem("currentUser");
+    window.location.href = "index.html";
   }
 });
-
-// Logout function for dashboards
-function logout() {
-  localStorage.removeItem("currentUser");
-  localStorage.removeItem("userRole");
-  window.location.href = "index.html";
+// ========== GLOBAL HELPERS ==========
+function getMsaidiziProfiles() {
+  return JSON.parse(localStorage.getItem("msaidiziProfiles") || "[]");
 }
-// On Mteja Dashboard
-document.addEventListener('DOMContentLoaded', () => {
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  if (currentUser && currentUser.role === 'mteja') {
-    document.getElementById('mteja-name').textContent = currentUser.username;
 
-    const jobForm = document.getElementById('jobForm');
-    const jobList = document.getElementById('jobList');
+function saveMsaidiziProfile(profile) {
+  const profiles = getMsaidiziProfiles();
+  profiles.push(profile);
+  localStorage.setItem("msaidiziProfiles", JSON.stringify(profiles));
+}
 
-    // Load posted jobs
-    const jobs = JSON.parse(localStorage.getItem('jobs')) || [];
+// ========== MSAIDIZI PROFILE FORM ==========
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("msaidiziForm");
+  const preview = document.getElementById("profilePreview");
 
-    function renderJobs() {
-      jobList.innerHTML = '';
-      const myJobs = jobs.filter(job => job.postedBy === currentUser.username);
-      myJobs.forEach((job, index) => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-          <strong>${job.title}</strong> - ${job.category}<br/>
-          ${job.description}<br/>
-          Budget: ${job.budget} KES | Location: ${job.location}
-        `;
-        jobList.appendChild(li);
-      });
-    }
-
-    renderJobs();
-
-    jobForm.addEventListener('submit', (e) => {
+  if (form) {
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const newJob = {
-        title: document.getElementById('jobTitle').value,
-        description: document.getElementById('jobDescription').value,
-        category: document.getElementById('jobCategory').value,
-        budget: document.getElementById('jobBudget').value,
-        location: document.getElementById('jobLocation').value,
-        postedBy: currentUser.username
+      const formData = new FormData(form);
+      const profile = {
+        name: formData.get("name"),
+        photo: formData.get("photo") || "https://via.placeholder.com/100",
+        location: formData.get("location"),
+        category: formData.get("category"),
+        experience: formData.get("experience"),
+        availability: formData.get("availability"),
+        pricing: formData.get("pricing"),
+        rating: (Math.random() * 2 + 3).toFixed(1), // Random 3.0-5.0 rating
       };
 
-      jobs.push(newJob);
-      localStorage.setItem('jobs', JSON.stringify(jobs));
+      saveMsaidiziProfile(profile);
+      displayProfileCard(preview, profile);
+      preview.classList.remove("hidden");
 
-      jobForm.reset();
-      renderJobs();
+      alert("Profile saved!");
+    });
+  }
+
+  // Load profile if preview section exists
+  if (preview && !form) {
+    const profiles = getMsaidiziProfiles();
+    if (profiles.length > 0) {
+      displayProfileCard(preview, profiles[profiles.length - 1]);
+      preview.classList.remove("hidden");
+    }
+  }
+
+  // Logout and Navbar
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "index.html";
+    });
+  }
+
+  const viewProfileBtn = document.getElementById("viewProfileBtn");
+  if (viewProfileBtn) {
+    viewProfileBtn.addEventListener("click", () => {
+      window.location.href = "msaidizi-profile.html";
     });
   }
 });
-// On Msaidizi Dashboard
-document.addEventListener('DOMContentLoaded', () => {
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  if (currentUser && currentUser.role === 'msaidizi') {
-    document.getElementById('msaidizi-name').textContent = currentUser.username;
 
-    const jobs = JSON.parse(localStorage.getItem('jobs')) || [];
-    const applications = JSON.parse(localStorage.getItem('applications')) || [];
-
-    const availableJobs = document.getElementById('availableJobs');
-    const appliedJobs = document.getElementById('appliedJobs');
-
-    function hasApplied(jobIndex) {
-      return applications.some(
-        app => app.jobIndex === jobIndex && app.applicant === currentUser.username
-      );
-    }
-
-    function renderJobs() {
-      availableJobs.innerHTML = '';
-      appliedJobs.innerHTML = '';
-
-      jobs.forEach((job, index) => {
-        if (!hasApplied(index)) {
-          const li = document.createElement('li');
-          li.innerHTML = `
-            <strong>${job.title}</strong> - ${job.category}<br/>
-            ${job.description}<br/>
-            Budget: ${job.budget} KES | Location: ${job.location}<br/>
-            <textarea placeholder="Write a message..." id="msg-${index}"></textarea><br/>
-            <button onclick="applyToJob(${index})">Apply</button>
-          `;
-          availableJobs.appendChild(li);
-        } else {
-          const app = applications.find(
-            a => a.jobIndex === index && a.applicant === currentUser.username
-          );
-          const li = document.createElement('li');
-          li.innerHTML = `
-            <strong>${job.title}</strong> - ${job.category}<br/>
-            ${job.description}<br/>
-            Location: ${job.location}<br/>
-            ✅ Applied with message: <em>${app.message}</em>
-          `;
-          appliedJobs.appendChild(li);
-        }
-      });
-    }
-
-    window.applyToJob = function(index) {
-      const message = document.getElementById(`msg-${index}`).value.trim();
-      if (!message) {
-        alert('Please enter a message before applying.');
-        return;
-      }
-
-      const newApp = {
-        jobIndex: index,
-        applicant: currentUser.username,
-        message
-      };
-
-      applications.push(newApp);
-      localStorage.setItem('applications', JSON.stringify(applications));
-      renderJobs();
-    };
-
-    renderJobs();
-  }
-});
-const jobApplicants = {
-  job123: [
-    { name: 'Jane W.', experience: '2 yrs', rating: 4.8 },
-    { name: 'Mary A.', experience: '3 yrs', rating: 4.5 }
-  ],
-  // other jobs...
-};
-
-function viewApplicants(jobId) {
-  const container = document.getElementById(`applicants-${jobId}`);
-  const applicants = jobApplicants[jobId];
-
-  if (!applicants || applicants.length === 0) {
-    container.innerHTML = '<p>No applicants yet.</p>';
-  } else {
-    container.innerHTML = applicants.map(app => `
-      <div class="applicant-card">
-        <p><strong>${app.name}</strong> – ${app.experience}</p>
-        <p>Rating: ⭐ ${app.rating}</p>
-        <button onclick="updateStatus('${jobId}', '${app.name}', 'accepted')">Accept</button>
-        <button onclick="updateStatus('${jobId}', '${app.name}', 'rejected')">Reject</button>
-      </div>
-    `).join('');
-  }
-
-  container.style.display = container.style.display === 'none' ? 'block' : 'none';
+// ========== DISPLAY PROFILE CARD ==========
+function displayProfileCard(container, profile) {
+  container.innerHTML = `
+    <div class="profile-card-inner">
+      <img src="${profile.photo}" alt="${profile.name}" class="profile-pic" />
+      <h3>${profile.name}</h3>
+      <p><strong>Location:</strong> ${profile.location}</p>
+      <p><strong>Category:</strong> ${profile.category}</p>
+      <p><strong>Experience:</strong> ${profile.experience} yrs</p>
+      <p><strong>Availability:</strong> ${profile.availability}</p>
+      <p><strong>Pricing:</strong> KES ${profile.pricing}/hr</p>
+      <p><strong>Rating:</strong> ⭐ ${profile.rating}</p>
+    </div>
+  `;
 }
-// Sample job data
-const jobs = [
+// ------------ FAKE HELPER PROFILES ------------
+const defaultHelpers = [
   {
-    id: "job1",
-    title: "House Cleaning",
-    location: "Kilimani",
-    date: "2025-05-28",
-    applicants: [
-      { name: "Amina", rating: 4.7, experience: "2 yrs" },
-      { name: "John", rating: 4.5, experience: "1.5 yrs" }
-    ]
+    name: "Amina Wanjiru",
+    photo: "https://i.pravatar.cc/150?img=3",
+    location: "Westlands",
+    category: "Cleaning",
+    experience: "3 years",
+    rating: 4.5,
+    skills: ["Deep cleaning", "Laundry", "Kitchen cleaning"],
+    availability: "Full-time",
+    pricing: "Ksh 800/day"
   },
   {
-    id: "job2",
-    title: "Gardening",
+    name: "John Mwangi",
+    photo: "https://i.pravatar.cc/150?img=7",
+    location: "Kasarani",
+    category: "Plumbing",
+    experience: "5 years",
+    rating: 4.8,
+    skills: ["Leak repair", "Pipe fitting", "Toilet repair"],
+    availability: "On call",
+    pricing: "Ksh 1500/job"
+  },
+  {
+    name: "Grace Achieng",
+    photo: "https://i.pravatar.cc/150?img=12",
     location: "Lavington",
-    date: "2025-05-29",
-    applicants: [
-      { name: "Grace", rating: 4.9, experience: "3 yrs" }
-    ]
+    category: "Babysitting",
+    experience: "2 years",
+    rating: 4.2,
+    skills: ["Infant care", "Homework help", "Meal prep"],
+    availability: "Weekends",
+    pricing: "Ksh 1000/day"
   }
 ];
 
-// Track job status per applicant
-const applicantStatus = {};
+// ------------ LOAD & DISPLAY PROFILES ------------
+function loadHelperProfiles() {
+  const container = document.getElementById("profilesContainer");
+  if (!container) return;
 
-// Render job listings
-function renderJobs() {
-  const container = document.getElementById("job-listings");
-  container.innerHTML = "";
+  const helpers = JSON.parse(localStorage.getItem("helpers")) || defaultHelpers;
+  const searchInput = document.getElementById("searchInput");
+  const categoryFilter = document.getElementById("categoryFilter");
 
-  jobs.forEach(job => {
-    const jobCard = document.createElement("div");
-    jobCard.className = "job-card";
+  function renderProfiles(profiles) {
+    container.innerHTML = "";
+    if (profiles.length === 0) {
+      container.innerHTML = `<p>No helpers found.</p>`;
+      return;
+    }
 
-    jobCard.innerHTML = `
-      <h3>${job.title}</h3>
-      <p><strong>Location:</strong> ${job.location}</p>
-      <p><strong>Date:</strong> ${job.date}</p>
-      <button onclick="viewApplicants('${job.id}')">View Applicants</button>
+    profiles.forEach(helper => {
+      const card = document.createElement("div");
+      card.className = "profile-card";
+      card.innerHTML = `
+        <img src="${helper.photo}" alt="${helper.name}" />
+        <h3>${helper.name}</h3>
+        <p><strong>Location:</strong> ${helper.location}</p>
+        <p><strong>Category:</strong> ${helper.category}</p>
+        <p><strong>Experience:</strong> ${helper.experience}</p>
+        <p><strong>Rating:</strong> ⭐ ${helper.rating}</p>
+        <p><strong>Skills:</strong> ${helper.skills.join(", ")}</p>
+        <p><strong>Availability:</strong> ${helper.availability}</p>
+        <p><strong>Pricing:</strong> ${helper.pricing}</p>
+        <button class="cta">Send Offer</button>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function filterProfiles() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const selectedCategory = categoryFilter.value;
+
+    const filtered = helpers.filter(helper => {
+      const matchesSearch =
+        helper.name.toLowerCase().includes(searchTerm) ||
+        helper.location.toLowerCase().includes(searchTerm) ||
+        helper.skills.join(" ").toLowerCase().includes(searchTerm);
+
+      const matchesCategory =
+        selectedCategory === "all" || helper.category === selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+
+    renderProfiles(filtered);
+  }
+
+  // Event listeners
+  searchInput.addEventListener("input", filterProfiles);
+  categoryFilter.addEventListener("change", filterProfiles);
+
+  renderProfiles(helpers);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadHelperProfiles();
+
+  // ------------- LOGOUT FUNCTIONALITY -------------
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "sign-up.html";
+    });
+  }
+
+  // ------------- PROFILE NAVIGATION -------------
+  const profileLink = document.getElementById("profileLink");
+  if (profileLink) {
+    profileLink.addEventListener("click", () => {
+      const userData = JSON.parse(localStorage.getItem("userData"));
+      if (userData) {
+        window.location.href = "profile.html"; // or a role-based profile
+      } else {
+        window.location.href = "sign-up.html";
+      }
+    });
+  }
+});
+// ===============================
+// LOGIN SIMULATION & PROFILE CREATION
+// ===============================
+document.addEventListener('DOMContentLoaded', () => {
+  const signUpForm = document.getElementById('signUpForm');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const profileLink = document.getElementById('profileLink');
+
+  // Handle sign-up form
+  if (signUpForm) {
+    signUpForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const role = document.querySelector('input[name="role"]:checked').value;
+      const name = document.getElementById('name').value;
+      const location = document.getElementById('location').value;
+      const contact = document.getElementById('contact').value;
+      const language = document.getElementById('language').value;
+      const category = document.getElementById('category').value;
+
+      const userProfile = {
+        name,
+        location,
+        contact,
+        language,
+        role,
+        category,
+      };
+
+      localStorage.setItem('loggedInUser', JSON.stringify(userProfile));
+
+      if (role === 'mteja') {
+        window.location.href = 'jobs.html';
+      } else {
+        window.location.href = 'profiles.html';
+      }
+    });
+  }
+
+  // Handle logout
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'index.html';
+    });
+  }
+
+  // Handle My Profile link
+  if (profileLink) {
+    profileLink.addEventListener('click', () => {
+      const user = JSON.parse(localStorage.getItem('loggedInUser'));
+      if (user) {
+        alert(`Profile:\nName: ${user.name}\nRole: ${user.role}\nLocation: ${user.location}`);
+      } else {
+        alert('Please log in.');
+      }
+    });
+  }
+});
+
+// ===============================
+// SAMPLE HELPER PROFILES
+// ===============================
+const sampleHelpers = [
+  {
+    name: 'Achieng Odhiambo',
+    category: 'Cleaning',
+    location: 'Kileleshwa',
+    rating: 4.5,
+    experience: '2 years',
+    photo: 'https://randomuser.me/api/portraits/women/44.jpg',
+  },
+  {
+    name: 'Brian Waweru',
+    category: 'Plumbing',
+    location: 'Donholm',
+    rating: 4.7,
+    experience: '3 years',
+    photo: 'https://randomuser.me/api/portraits/men/32.jpg',
+  },
+  {
+    name: 'Grace Mumbi',
+    category: 'Babysitting',
+    location: 'Westlands',
+    rating: 4.9,
+    experience: '5 years',
+    photo: 'https://randomuser.me/api/portraits/women/21.jpg',
+  },
+  {
+    name: 'Peter Mwangi',
+    category: 'Electrical',
+    location: 'Langata',
+    rating: 4.3,
+    experience: '4 years',
+    photo: 'https://randomuser.me/api/portraits/men/45.jpg',
+  }
+];
+
+function renderProfiles(profiles) {
+  const container = document.getElementById('profilesContainer');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  profiles.forEach(profile => {
+    const card = document.createElement('div');
+    card.className = 'profile-card';
+    card.innerHTML = `
+      <img src="${profile.photo}" alt="${profile.name}" />
+      <h3>${profile.name}</h3>
+      <p><strong>Category:</strong> ${profile.category}</p>
+      <p><strong>Location:</strong> ${profile.location}</p>
+      <p><strong>Experience:</strong> ${profile.experience}</p>
+      <p><strong>Rating:</strong> ⭐ ${profile.rating}</p>
+      <button>Send Offer</button>
     `;
-
-    container.appendChild(jobCard);
+    container.appendChild(card);
   });
 }
 
-// View applicants for a specific job
-function viewApplicants(jobId) {
-  const job = jobs.find(j => j.id === jobId);
-  const container = document.getElementById("applicants");
-  container.innerHTML = `<h2>Applicants for ${job.title}</h2>`;
+// ===============================
+// FILTER & SEARCH ON profiles.html
+// ===============================
+document.addEventListener('DOMContentLoaded', () => {
+  const nameInput = document.getElementById('searchName');
+  const categorySelect = document.getElementById('filterCategory');
+  const locationSelect = document.getElementById('filterLocation');
 
-  container.innerHTML += job.applicants.map(app => {
-    const status = applicantStatus[jobId]?.[app.name];
-    let statusHTML = "";
+  if (nameInput || categorySelect || locationSelect) {
+    renderProfiles(sampleHelpers); // Initial render
 
-    if (status) {
-      statusHTML = `<p class="status ${status}">Status: ${status.toUpperCase()}</p>`;
-    } else {
-      statusHTML = `
-        <button onclick="updateStatus('${jobId}', '${app.name}', 'accepted')">Accept</button>
-        <button onclick="updateStatus('${jobId}', '${app.name}', 'rejected')">Reject</button>
-      `;
+    function filterProfiles() {
+      const nameVal = nameInput.value.toLowerCase();
+      const categoryVal = categorySelect.value;
+      const locationVal = locationSelect.value;
+
+      const filtered = sampleHelpers.filter(helper => {
+        const matchesName = helper.name.toLowerCase().includes(nameVal);
+        const matchesCategory = categoryVal ? helper.category === categoryVal : true;
+        const matchesLocation = locationVal ? helper.location === locationVal : true;
+
+        return matchesName && matchesCategory && matchesLocation;
+      });
+
+      renderProfiles(filtered);
     }
 
-    return `
-      <div class="applicant-card">
-        <p><strong>${app.name}</strong> – ${app.experience}</p>
-        <p>Rating: ⭐ ${app.rating}</p>
-        ${statusHTML}
-      </div>
-    `;
-  }).join("");
-}
-
-// Accept or reject an applicant
-function updateStatus(jobId, applicantName, status) {
-  if (!applicantStatus[jobId]) {
-    applicantStatus[jobId] = {};
+    nameInput.addEventListener('input', filterProfiles);
+    categorySelect.addEventListener('change', filterProfiles);
+    locationSelect.addEventListener('change', filterProfiles);
   }
-
-  applicantStatus[jobId][applicantName] = status;
-
-  alert(`${applicantName} has been ${status.toUpperCase()} for job ${jobId}.`);
-
-  // Re-render applicants with updated status
-  viewApplicants(jobId);
-}
-
-// Initialize dashboard
-window.onload = renderJobs;
+});

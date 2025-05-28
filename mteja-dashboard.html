@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mteja Dashboard | Jirani Pro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="light-mode">
+  <nav class="navbar">
+    <div class="logo">Jirani Pro</div>
+    <ul class="nav-links">
+      <li><a href="profiles.html">Find Helpers</a></li>
+      <li><a href="#" onclick="logout()">Logout</a></li>
+      <li>
+        <button id="themeToggle">🌓</button>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="dashboard-container">
+    <section class="job-post-form">
+      <h2>Post a New Job</h2>
+      <form id="jobForm">
+        <input type="text" id="jobTitle" placeholder="Job Title (e.g., House Cleaning)" required />
+        <select id="jobCategory" required>
+          <option value="" disabled selected>Service Type</option>
+          <option value="Cleaning">Cleaning</option>
+          <option value="Babysitting">Babysitting</option>
+          <option value="Plumbing">Plumbing</option>
+          <option value="Electrical">Electrical</option>
+          <option value="Cooking">Cooking</option>
+          <option value="Painting">Painting</option>
+        </select>
+        <textarea id="jobDescription" placeholder="Describe the task briefly..." required></textarea>
+        <input type="text" id="jobLocation" placeholder="Location (e.g., Westlands)" required />
+        <input type="text" id="jobBudget" placeholder="Budget (e.g., 1500 KES)" required />
+        <select id="jobUrgency" required>
+          <option value="" disabled selected>Urgency</option>
+          <option value="ASAP">ASAP</option>
+          <option value="Scheduled">Scheduled</option>
+        </select>
+        <button type="submit">Post Job</button>
+      </form>
+    </section>
+
+    <section class="job-dashboard">
+      <h2>My Job Posts</h2>
+      <div id="jobList" class="job-list"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

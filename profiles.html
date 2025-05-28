@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jirani Pro | View Helpers</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <h1>Jirani Pro</h1>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="profiles.html">Helpers</a>
+      <a href="#" id="profileLink">My Profile</a>
+      <a href="#" id="logoutBtn">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h2>Available Helpers</h2>
+
+    <!-- Filters -->
+    <div class="filters">
+      <input type="text" id="searchName" placeholder="Search by name..." />
+      <select id="filterCategory">
+        <option value="">All Categories</option>
+        <option value="Plumbing">Plumbing</option>
+        <option value="Cleaning">Cleaning</option>
+        <option value="Cooking">Cooking</option>
+        <option value="Electrical">Electrical</option>
+        <option value="Painting">Painting</option>
+        <option value="Babysitting">Babysitting</option>
+      </select>
+      <select id="filterLocation">
+        <option value="">All Locations</option>
+        <option value="Westlands">Westlands</option>
+        <option value="Kileleshwa">Kileleshwa</option>
+        <option value="Donholm">Donholm</option>
+        <option value="Langata">Langata</option>
+      </select>
+    </div>
+
+    <!-- Profile Cards -->
+    <div id="profilesContainer"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
