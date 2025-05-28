@@ -492,3 +492,81 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+// Save job to localStorage
+document.addEventListener("DOMContentLoaded", () => {
+  const jobForm = document.getElementById("jobForm");
+  if (jobForm) {
+    jobForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const job = {
+        title: document.getElementById("jobTitle").value,
+        category: document.getElementById("jobCategory").value,
+        description: document.getElementById("jobDescription").value,
+        location: document.getElementById("jobLocation").value,
+        budget: document.getElementById("jobBudget").value,
+        urgency: document.getElementById("jobUrgency").value,
+        status: "Open"
+      };
+
+      const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+      jobs.push(job);
+      localStorage.setItem("jobs", JSON.stringify(jobs));
+
+      alert("Job posted successfully!");
+      window.location.href = "jobs.html"; // Redirect to jobs page
+    });
+  }
+});// Display jobs in jobs.html
+document.addEventListener("DOMContentLoaded", () => {
+  const jobListContainer = document.querySelector(".job-listings");
+  if (jobListContainer) {
+    const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+
+    if (jobs.length === 0) {
+      jobListContainer.innerHTML = "<p>No jobs posted yet.</p>";
+      return;
+    }
+
+    jobs.forEach((job, index) => {
+      const card = document.createElement("div");
+      card.className = "job-card";
+      card.innerHTML = `
+        <h3>${job.title}</h3>
+        <p><strong>Service:</strong> ${job.category}</p>
+        <p><strong>Location:</strong> ${job.location}</p>
+        <p><strong>Description:</strong> ${job.description}</p>
+        <p><strong>Urgency:</strong> ${job.urgency}</p>
+        <p><strong>Budget:</strong> ${job.budget}</p>
+        <p><strong>Status:</strong> ${job.status}</p>
+        <button class="btn-secondary">View Applicants</button>
+        <button class="btn-secondary">Mark as Complete</button>
+      `;
+      jobListContainer.appendChild(card);
+    });
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const dynamicJobsContainer = document.getElementById("dynamicJobs");
+
+  if (dynamicJobsContainer) {
+    const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+
+    jobs.forEach((job) => {
+      const card = document.createElement("div");
+      card.className = "job-card";
+      card.innerHTML = `
+        <h3>${job.title}</h3>
+        <p><strong>Service:</strong> ${job.category}</p>
+        <p><strong>Description:</strong> ${job.description}</p>
+        <p><strong>Location:</strong> ${job.location}</p>
+        <p><strong>Urgency:</strong> ${job.urgency}</p>
+        <p><strong>Budget:</strong> ${job.budget}</p>
+        <p><strong>Status:</strong> ${job.status}</p>
+        <button class="btn-secondary">View Applicants</button>
+        <button class="btn-secondary">Mark as Complete</button>
+      `;
+      dynamicJobsContainer.appendChild(card);
+    });
+  }
+});
