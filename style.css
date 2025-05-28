@@ -15,7 +15,7 @@ body {
 /* Brand Colors */
 :root {
   --primary: #6a0dad;         /* Soft Purple */
-  --secondary: #38b000;       /* Soft Green */
+  --secondary: #196d72;       /* Soft Green */
   --bg-light: #ffffff;
   --bg-dark: #1a1a1a;
   --text-dark: #333;
@@ -97,6 +97,11 @@ nav a:hover {
   text-decoration: underline;
 }
 
+ul.navbar{
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
 #logoutBtn {
   background-color: var(--secondary);
   border: none;
@@ -128,3 +133,72 @@ nav a:hover {
   }
 }
 
+/* Hero Section */
+.hero {
+  background-color: var(--primary);
+  color: #fff;
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.cta-buttons a {
+  margin: 0 0.5rem;
+  background-color: var(--secondary);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.cta-buttons a:hover {
+  background-color: #2e8600;
+}
+
+/* Category Section */
+.categories {
+  background-color: #fff;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.categories h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--primary);
+}
+
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.category-card {
+  background-color: var(--secondary);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  background-color: #2e8600;
+  transform: translateY(-5px);
+}
