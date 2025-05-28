@@ -113,6 +113,84 @@ ul.navbar{
 #logoutBtn:hover {
   background-color: #2e8600;
 }
+/* Main Content Area */
+.main-content {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Header Section */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header-section h2 {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #580fa2;
+}
+
+/* Job Listings */
+.job-listings {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Job Card Style */
+.job-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-3px);
+}
+
+.job-card h3 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.job-card p {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+}
+
+.job-card .btn-secondary {
+  margin-top: 1rem;
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background-color: var(--secondary);
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.job-card .btn-secondary:hover {
+  background-color: #2e8600;
+}
 
 /* Responsive */
 @media screen and (max-width: 768px) {
